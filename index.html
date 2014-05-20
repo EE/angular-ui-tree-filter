@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS UI Tree Keyboard demo</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-tree/demo/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="demo.css">
+
+</head>
+<body ng-app="demoApp">
+
+<a href="https://github.com/ee/angular-ui-tree-filter">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
+</a>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>Tree filter</h1>
+
+        <p class="lead">Node filter for Tree - the AngularJS Tree component with drag and drop support.</p>
+
+        <p><a class="btn btn-lg btn-success" href="https://github.com/jrencz/agnular-ui-tree-keyboard" role="button">
+            Code on GitHub</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>What?</h2>
+
+            <p>
+                Angular Tree Filter is an AngularJS module that helps building a simple filter for the apps using
+                Angular UI Tree. It may also be used as a generic tree structure filter for any app driven by Angular.
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h2>Why?</h2>
+
+            <p>
+                Because at <a href=">http://github.com/ee">Laboratorium EE</a> we care about usability and
+                accessibility and we want you to deliver it to your users with zero effort.
+            </p>
+        </div>
+        <div class="col-md-5">
+            <h2>Features</h2>
+            <ul>
+                <li>
+                    Path matching: if sub-node matches than all its ancestors up to the root of the tree match as well
+                </li>
+                <li>RegExp enabled: allows matching regular expressions</li>
+                <li>Configurable with providers. See the <a href="http://github.com/ee/angular-ui-tree-filter#configuration-reference">configuration reference</a></li>
+                <li>Works great with <a href=">http://angular-ui.github.io/ui-utils/#/highlight">UI.Utils highlight</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>See it in action</h2>
+        </div>
+    </div>
+
+    <div class="row tree-container"
+         ng-controller="MainCtrl"
+         ng-init="dim=true; highlight=true">
+        <div class="col-md-6">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Filter</span>
+                <input type="search" class="form-control" placeholder="Type a part of any nodes name..."  ng-model="pattern">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <ul class="list-unstyled">
+                <li>
+                    <input type="checkbox" ng-model="highlight">
+                    <small> Use
+                       <a href=">http://angular-ui.github.io/ui-utils/#/highlight">UI.Utils highlight</a> for exatc matches</small>
+                </li>
+                <li>
+                    <input type="checkbox" ng-model="dim"> <small>Dim filtered out (instead of hiding)</small>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <ul class="list-unstyled">
+                <li ng-repeat="field in availableFields">
+                    <input type="checkbox" ng-click="toggleSupport(field)" ng-checked="supportedFields.indexOf(field) > -1">
+                    <small>Match <code>{{ field }}</code></small>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-12">
+
+            <!-- Nested list template -->
+            <script type="text/ng-template" id="items_renderer.html">
+                <div ui-tree-handle>
+                    <span ng-bind-html="item.title | highlight:pattern | trust"></span>
+                    <small ng-bind-html="item.description | highlight:pattern | trust"></small>
+                </div>
+                <ol ui-tree-nodes ng-model="item.items">
+                    <li ng-repeat="item in item.items" ui-tree-node ng-include="'items_renderer.html'"
+                        ng-hide="!treeFilter(item, pattern, supportedFields) && !dim"
+                        ng-class="{'filtered-out':!treeFilter(item, pattern, supportedFields) && dim}">
+                    </li>
+                </ol>
+            </script>
+            <div ui-tree>
+                <ol ui-tree-nodes ng-model="list">
+                    <li ng-repeat="item in list" ui-tree-node ng-include="'items_renderer.html'"
+                        ng-hide="!treeFilter(item, pattern, supportedFields) && !dim"
+                        ng-class="{'filtered-out':!treeFilter(item, pattern, supportedFields) && dim}"></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-ui-tree/dist/angular-ui-tree.min.js"></script>
+<script src="bower_components/angular-ui-utils/highlight.min.js"></script>
+<script src="dist/ui-tree-filter.min.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>
