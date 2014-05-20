@@ -16,13 +16,20 @@ A module providing an [AngularJS](http://angularjs.org/) filter which can be use
 
 ## How it works?
 
-1. It's is configurable: you should configure which properties of your nodes should checked.
+1. It's is configurable: 
+  - you may provide default properties of your nodes that should matched against provided pattern:
 
 ```
 angular.module('myApp')
   .config(function (uiTreeFilterSettingsProvider) {
     uiTreeFilterSettingsProvider.supportedFields = ['title', 'description', 'username'];
   });
+```
+
+  - or you may pass property list as an optional 3rd argument:
+
+```
+$filter('uiTreeFilter')(nodeObject, pattern, ['title', 'description', 'username'])
 ```
 
 2. It matches the whole path
