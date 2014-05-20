@@ -64,6 +64,7 @@ module.exports = function (grunt) {
             },
         },
         clean: {
+            defs: '**/*.defs.js',
             tmp: '.tmp',
         },
         connect: {
@@ -147,6 +148,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('build', [
+        'clean',
         'lint',
         'defs',
         'ngAnnotate',
