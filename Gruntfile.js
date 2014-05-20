@@ -131,6 +131,12 @@ module.exports = function (grunt) {
                 background: true,
             },
         },
+        'gh-pages': {
+            options: {
+                base: 'demo',
+            },
+            src: ['**'],
+        },
     });
 
 
