@@ -1,0 +1,45 @@
+{
+    "devel": true,
+    "node": true,
+    "esnext": true,
+
+    "bitwise": true,
+    "curly": true,
+    "eqeqeq": true,
+    "eqnull": true,
+    "forin": false,
+    "immed": true,
+    "indent": 4,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "onevar": true,
+    "strict": true,
+    "trailing": true,
+    "undef": true,
+    "unused": true,
+    "quotmark": "single",
+    "maxcomplexity": 10,
+    "maxerr": 50,
+    "maxlen": 120,
+
+    "globals": {
+        "angular": false,
+
+        // Jasmine API
+        "jasmine": false,
+        "module": false,
+        "describe": false,
+        "ddescribe": false,
+        "xdescribe": false,
+        "it": false,
+        "iit": false,
+        "xit": false,
+        "expect": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "inject": false,
+        "spyOn": false
+    }
+}
