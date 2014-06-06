@@ -22,7 +22,7 @@ A module providing an [AngularJS](http://angularjs.org/) filter which can be use
 ```
 angular.module('myApp')
   .config(function (uiTreeFilterSettingsProvider) {
-    uiTreeFilterSettingsProvider.supportedFields = ['title', 'description', 'username'];
+    uiTreeFilterSettingsProvider.addresses = ['title', 'description', 'username'];
   });
 ```
 
@@ -68,9 +68,10 @@ Filter can be used in the template to as an argument of the `ng-show` or `ng-if`
 
 ## Configuration reference
 
-- `supportedFields` (default: `['title']`): properties of notes against which pattern will be matched
+- `addresses` (default: `['title']`): properties of notes against which pattern will be matched.
+   Deep filed access is supported: one can provide `foo.bar.baz` to match against item.foo.bar.baz value. 
 - `regexFlags` (default: `'gi'`): [Regular expression flags](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Parameters) applied during he matching
-- `descendantCollectionField` (default: `'items'`): property of the node that holds nodes descendants
+- `descendantCollection` (default: `'items'`): name of item property that holds item descendants
 
 ## Performance
 

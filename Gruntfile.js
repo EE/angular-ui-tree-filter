@@ -112,7 +112,11 @@ module.exports = function (grunt) {
         },
         jscs: {
             all: {
-                src: '<%= jshint.all.src %>',
+                src: [
+                    'Gruntfile.js',
+                    'src/<%= pkg.name %>.js',
+                    'test/unit/spec/<%= pkg.name %>.spec.js',
+                ],
                 options: {
                     config: '.jscs.json',
                 },

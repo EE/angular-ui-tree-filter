@@ -5,8 +5,8 @@ describe('Module: ui.tree-filter', function () {
 
     beforeEach(module('ui.tree-filter'));
 
-    beforeEach(module(function(uiTreeFilterSettingsProvider) {
-        uiTreeFilterSettingsProvider.supportedFields = ['title'];
+    beforeEach(module(function (uiTreeFilterSettingsProvider) {
+        uiTreeFilterSettingsProvider.addresses = ['title'];
     }));
 
     beforeEach(function () {
@@ -32,17 +32,17 @@ describe('Module: ui.tree-filter', function () {
                                         id: 212,
                                         title: '2.1.1.1. bubble-burst',
                                         items: [],
-                                    }
-                                ]
-                            }
-                        ]
+                                    },
+                                ],
+                            },
+                        ],
                     },
                     {
                         id: 22,
                         title: '2.2. barehand-atomsplitting',
                         items: [],
-                    }
-                ]
+                    },
+                ],
             },
             {
                 id: 3,
@@ -63,7 +63,7 @@ describe('Module: ui.tree-filter', function () {
 
     it('should match item on level 1', function () {
         const matchedString = 'romantic';
-        
+
         expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
         expect(uiTreeFilter(sampleTree[1], matchedString)).toBe(false);
         expect(uiTreeFilter(sampleTree[1].items[0], matchedString)).toBe(false);
@@ -115,7 +115,7 @@ describe('Module: ui.tree-filter', function () {
 
     it('should match regular expression (entire path)', function () {
         // 2.1, 2.1.1, 2.1.1.1 and 2 since it's part of the path, as well as 2.2
-        const matchedString = "[0-9]\.[0-9]\..[a-z]";
+        const matchedString = '[0-9]\.[0-9]\..[a-z]';
 
         expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
         expect(uiTreeFilter(sampleTree[1], matchedString)).toBe(true);
@@ -133,6 +133,18 @@ describe('Module: ui.tree-filter', function () {
 
         expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
         expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description'])).toBe(true);
+    });
+
+    it('should match dot-delimited paths to value', function () {
+        sampleTree[0].nested = {
+            property: 'nested property value',
+        };
+        const matchedString = 'nested';
+
+        expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
+        expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description'])).toBe(false);
+        expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description', 'nested'])).toBe(false);
+        expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description', 'nested.property'])).toBe(true);
     });
 
 });
