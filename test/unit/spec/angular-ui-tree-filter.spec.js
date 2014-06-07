@@ -7,6 +7,7 @@ describe('Module: ui.tree-filter', function () {
 
     beforeEach(module(function (uiTreeFilterSettingsProvider) {
         uiTreeFilterSettingsProvider.addresses = ['title'];
+        uiTreeFilterSettingsProvider.setComparator('number', window.operatorExpressionComparator);
     }));
 
     beforeEach(function () {
@@ -145,6 +146,63 @@ describe('Module: ui.tree-filter', function () {
         expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description'])).toBe(false);
         expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description', 'nested'])).toBe(false);
         expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description', 'nested.property'])).toBe(true);
+    });
+
+    it('should support both simple and detailed addresses', function () {
+        sampleTree[0].foo = 'bar';
+        sampleTree[0].deeply = {
+            nested: {
+                foo: 'nested bar',
+            },
+        };
+        const matchedString = 'ba';
+
+        expect(uiTreeFilter(sampleTree[0], matchedString, ['foo'])).toBe(true);
+        expect(uiTreeFilter(sampleTree[0], matchedString, [
+            {
+                path: 'foo',
+                type: 'string',
+            },
+        ])).toBe(true);
+
+        expect(uiTreeFilter(sampleTree[0], matchedString, ['deeply.nested.foo'])).toBe(true);
+        expect(uiTreeFilter(sampleTree[0], matchedString, [
+            {
+                path: 'deeply.nested.foo',
+                type: 'string',
+            },
+        ])).toBe(true);
+    });
+
+    it('should support number ranges with operatorExpressionComparator provided', function () {
+        sampleTree[0].fourtyTwo = '42';
+        [
+            '>10',
+            '> 10',
+            '<100',
+            '< 100',
+            '>=42',
+            '>= 42',
+            '<=42',
+            '<= 42',
+            '=42',
+            '= 42',
+            '==42',
+            '== 42',
+            '!=1',
+            '!= 1',
+            '!1',
+            '! 1',
+            '<>1',
+            '<> 1',
+        ].forEach(function (expression) {
+            expect(uiTreeFilter(sampleTree[0], expression, [
+                {
+                    path: 'fourtyTwo',
+                    type: 'number',
+                },
+            ])).toBe(true);
+        });
     });
 
 });

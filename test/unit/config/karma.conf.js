@@ -8,6 +8,7 @@ module.exports = function(config) {
             'test/unit/bower_components/angular/angular.min.js',
             'test/unit/bower_components/angular-mocks/angular-mocks.js',
             'src/angular-ui-tree-filter.defs.js',
+            'src/add-ons/*.js',
             'test/unit/spec/**/*.defs.js',
         ],
         port: 8080,
