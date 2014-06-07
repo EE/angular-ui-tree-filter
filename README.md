@@ -69,8 +69,11 @@ Filter can be used in the template to as an argument of the `ng-show` or `ng-if`
 ## Configuration reference
 
 - `addresses` (default: `['title']`): properties of notes against which pattern will be matched.
-   Deep filed access is supported: one can provide `foo.bar.baz` to match against item.foo.bar.baz value. 
-- `regexFlags` (default: `'gi'`): [Regular expression flags](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Parameters) applied during he matching
+   Deep filed access is supported: one can provide `foo.bar.baz` to match against item.foo.bar.baz value.
+- `setComparator(type, comparator)`: allows to define comparison rules applied to properties provided in `addresses`. 
+   By default uiTreeFilter ships with string regex comparator (with regex flags: `'gi'`). You can provide any custom 
+   logic that will be applied to your field value. This way you can even compare objects (note that using path notation 
+   in an `address` is most likely more convenient). Find out what comparators can do on the [demo page](http://ee.github.io/angular-ui-tree-filter/comparators.html)
 - `descendantCollection` (default: `'items'`): name of item property that holds item descendants
 
 ## Performance
