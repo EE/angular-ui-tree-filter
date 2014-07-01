@@ -1,4 +1,4 @@
-#ui.tree-filter [![Build Status](https://travis-ci.org/EE/angular-ui-tree-filter.png?branch=master)](https://travis-ci.org/EE/angular-ui-tree-filter) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+#ui.tree-filter [![Build Status](https://travis-ci.org/EE/angular-ui-tree-filter.svg?branch=master)](https://travis-ci.org/EE/angular-ui-tree-filter) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 A module providing an [AngularJS](http://angularjs.org/) filter which can be used with [angular-ui-tree](http://github.com/JimLiu/angular-ui-tree) to match tree nodes.
 
