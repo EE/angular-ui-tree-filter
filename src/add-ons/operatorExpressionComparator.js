@@ -18,7 +18,7 @@ window.operatorExpressionComparator = function operatorExpressionComparator(valu
     if (!value || !pattern) {
         return false;
     }
-    var parsed = pattern.match(/(<>|!=|!|>=|<=|>|<|==|=)\s?(.*)/);
+    var parsed = pattern.match(/\s*(<>|!=|!|>=|<=|>|<|==|=)\s*?(\S.*)\s*/);
     if (parsed.length !== 3) {
         return false;
     }

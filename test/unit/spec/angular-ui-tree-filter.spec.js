@@ -176,33 +176,42 @@ describe('Module: ui.tree-filter', function () {
 
     it('should support number ranges with operatorExpressionComparator provided', function () {
         sampleTree[0].fourtyTwo = '42';
-        [
-            '>10',
-            '> 10',
-            '<100',
-            '< 100',
-            '>=42',
-            '>= 42',
-            '<=42',
-            '<= 42',
-            '=42',
-            '= 42',
-            '==42',
-            '== 42',
-            '!=1',
-            '!= 1',
-            '!1',
-            '! 1',
-            '<>1',
-            '<> 1',
-        ].forEach(function (expression) {
+        const testBase = [
+            ['>',  10],
+            ['<',  100],
+            ['>=', 42],
+            ['<=', 42],
+            ['=',  42],
+            ['==', 42],
+            ['!=', 1],
+            ['!',  1],
+            ['<>', 1],
+        ];
+        const spacingOptions = ['', ' '];
+
+        function runTest(expression) {
             expect(uiTreeFilter(sampleTree[0], expression, [
                 {
                     path: 'fourtyTwo',
                     type: 'number',
                 },
             ])).toBe(true);
+        }
+
+        testBase.forEach(function (base) {
+            const operator = base[0];
+            const argument = base[1];
+            // Test all simple combinations of spacing.
+            spacingOptions.forEach(function (s1) {
+                spacingOptions.forEach(function (s2) {
+                    spacingOptions.forEach(function (s3) {
+                        const expression = s1 + operator + s2 + argument + s3;
+                        runTest(expression);
+                    });
+                });
+            });
         });
+
     });
 
 });
