@@ -24,25 +24,28 @@ window.operatorExpressionComparator = function operatorExpressionComparator(valu
     }
 
     function compareAsInt(operator, left, right) {
+        var intLeft = parseInt(left, 10);
+        var intRight = parseInt(right, 10);
+
         switch (operator) {
             case '>':
-                return parseInt(left, 10) > parseInt(right, 10);
+                return intLeft > intRight;
             case '<':
-                return parseInt(left, 10) < parseInt(right, 10);
+                return intLeft < intRight;
             case '>=':
-                return parseInt(left, 10) >= parseInt(right, 10);
+                return intLeft >= intRight;
             case '<=':
-                return parseInt(left, 10) <= parseInt(right, 10);
+                return intLeft <= intRight;
             case '!':
-                return parseInt(left, 10) !== parseInt(right, 10);
+                return intLeft !== intRight;
             case '!=':
-                return parseInt(left, 10) !== parseInt(right, 10);
+                return intLeft !== intRight;
             case '<>':
-                return parseInt(left, 10) !== parseInt(right, 10);
+                return intLeft !== intRight;
             case '=':
-                return parseInt(left, 10) === parseInt(right, 10);
+                return intLeft === intRight;
             case '==':
-                return parseInt(left, 10) === parseInt(right, 10);
+                return intLeft === intRight;
         }
         return false;
     }
