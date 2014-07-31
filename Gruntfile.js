@@ -7,18 +7,15 @@ module.exports = function (grunt) {
         jscs: 'grunt-jscs-checker',
     });
 
-    var mountFolder = function (connect, dir) {
+    function mountFolder(connect, dir) {
         return connect.static(require('path').resolve(dir));
-    };
+    }
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         defs: {
             options: {
-                transformDest: function transformDest(path) {
-                    return path.replace(/\.js$/, '.defs.js');
-                },
                 defsOptions: {
                     disallowDuplicated: true,
                     disallowUnknownReferences: false,
@@ -26,11 +23,17 @@ module.exports = function (grunt) {
                 },
             },
             src: {
+                expand: true,
+                extDot: 'last',
+                ext: '.defs.js',
                 src: [
                     'src/<%= pkg.name %>.js',
                 ],
             },
             test: {
+                expand: true,
+                extDot: 'last',
+                ext: '.defs.js',
                 src: [
                     'test/unit/spec/<%= pkg.name %>.spec.js',
                     '!test/unit/spec/<%= pkg.name %>.spec.defs.js',
@@ -174,6 +177,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('test', [
+        'clean',
         'lint',
         'defs',
         'karma:unit',
