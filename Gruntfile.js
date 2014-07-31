@@ -3,9 +3,7 @@ module.exports = function (grunt) {
 
     // load all grunt tasks automatically and only necessary ones.
     // Those that doesn't match the pattern have to be provided here.
-    require('jit-grunt')(grunt, {
-        jscs: 'grunt-jscs-checker',
-    });
+    require('jit-grunt')(grunt);
 
     function mountFolder(connect, dir) {
         return connect.static(require('path').resolve(dir));
