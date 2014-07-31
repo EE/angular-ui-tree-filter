@@ -42,7 +42,7 @@
         })
     /**
      * @ngdoc function
-     * @name project.factory:projectWbsFilter
+     * @name ui.tree-filter.factory:uiTreeFilter
      */
         .filter('uiTreeFilter', ["uiTreeFilterSettings", function (uiTreeFilterSettings) {
             /**
