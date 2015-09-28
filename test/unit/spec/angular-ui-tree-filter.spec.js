@@ -147,4 +147,13 @@ describe('Module: ui.tree-filter', function () {
         expect(uiTreeFilter(sampleTree[0], matchedString, ['title', 'description', 'nested.property'])).toBe(true);
     });
 
+    it('should support objects that may not have all addresses', function () {
+        const matchedString = 'nested';
+
+        inject(function (uiTreeFilterSettings) {
+            uiTreeFilterSettings.addresses.push('nonexistent.property');
+        });
+
+        expect(uiTreeFilter(sampleTree[0], matchedString)).not.toThrow;
+	});
 });
