@@ -154,6 +154,8 @@ describe('Module: ui.tree-filter', function () {
             uiTreeFilterSettings.addresses.push('nonexistent.property');
         });
 
-        expect(uiTreeFilter(sampleTree[0], matchedString)).not.toThrow;
-	});
+        expect(function () {
+            uiTreeFilter(sampleTree[0], matchedString)
+        }).not.toThrow();
+    });
 });
