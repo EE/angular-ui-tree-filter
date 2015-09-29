@@ -155,7 +155,7 @@ describe('Module: ui.tree-filter', function () {
         });
 
         expect(function () {
-            uiTreeFilter(sampleTree[0], matchedString)
+            uiTreeFilter(sampleTree[0], matchedString);
         }).not.toThrow();
     });
 });
