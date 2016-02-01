@@ -6,7 +6,7 @@ describe('Module: ui.tree-filter', function () {
     beforeEach(module('ui.tree-filter'));
 
     beforeEach(module(function (uiTreeFilterSettingsProvider) {
-        uiTreeFilterSettingsProvider.addresses = ['title'];
+        uiTreeFilterSettingsProvider.addresses = ['title', 'stringArray'];
     }));
 
     beforeEach(function () {
@@ -23,6 +23,7 @@ describe('Module: ui.tree-filter', function () {
                     {
                         id: 21,
                         title: '2.1. tofu-animation',
+                        stringArray: ['item', 'match-me'],
                         items: [
                             {
                                 id: 211,
@@ -31,6 +32,7 @@ describe('Module: ui.tree-filter', function () {
                                     {
                                         id: 212,
                                         title: '2.1.1.1. bubble-burst',
+                                        stringArray: ['item', 'eight', 'another item'],
                                         items: [],
                                     },
                                 ],
@@ -40,6 +42,7 @@ describe('Module: ui.tree-filter', function () {
                     {
                         id: 22,
                         title: '2.2. barehand-atomsplitting',
+                        stringArray: ['find-me'],
                         items: [],
                     },
                 ],
@@ -47,11 +50,13 @@ describe('Module: ui.tree-filter', function () {
             {
                 id: 3,
                 title: '3. unicorn-zapper',
+                stringArray: ['lowercase', 'UPPERCASE'],
                 items: [],
             },
             {
                 id: 4,
                 title: '4. romantic-transclusion',
+                stringArray: ['one', 'item'],
                 items: [],
             },
         ];
@@ -157,5 +162,61 @@ describe('Module: ui.tree-filter', function () {
         expect(function () {
             uiTreeFilter(sampleTree[0], matchedString);
         }).not.toThrow();
+    });
+
+    describe('array matching', function () {
+
+        it('should match an array item on level 1', function () {
+            const matchedString = 'one';
+
+            expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[1], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[2], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[3], matchedString)).toBe(true);
+        });
+
+        it('should match entire path to the first strict array match', function () {
+            const matchedString = 'eight';
+
+            expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[1].items[0], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0].items[0], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[1].items[1], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[2], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[3], matchedString)).toBe(false);
+        });
+
+        it('should match several items on the same level', function () {
+            const matchedString = '-me';
+
+            expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[1].items[0], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[1], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[2], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[3], matchedString)).toBe(false);
+        });
+
+        it('should match case-insensitive', function () {
+            const matchedString = 'LOWERCASE';
+
+            expect(uiTreeFilter(sampleTree[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[0].items[0].items[0], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[1].items[1], matchedString)).toBe(false);
+            expect(uiTreeFilter(sampleTree[2], matchedString)).toBe(true);
+            expect(uiTreeFilter(sampleTree[3], matchedString)).toBe(false);
+        });
+
     });
 });
