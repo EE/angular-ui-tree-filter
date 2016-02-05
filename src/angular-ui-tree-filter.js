@@ -101,12 +101,14 @@
              */
             function searchStringInArray(str, strArray) {
                 let found = false;
-                strArray.forEach(function (item) {
-                    if (item.match(str)) {
-                        found = true;
-                    }
-                });
-                return found;
+                if (strArray) {
+                    strArray.forEach(function (item) {
+                        if (item.match(str)) {
+                            found = true;
+                        }
+                    });
+                    return found;
+                }
             }
 
             /**
