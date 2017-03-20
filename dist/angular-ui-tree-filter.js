@@ -81,7 +81,9 @@
             function testForField(item, pattern, address) {
                 var value = resolveAddress(item, address);
                 var found = typeof value === 'string' ?
-                    !!value.match(new RegExp(pattern, uiTreeFilterSettings.regexFlags)) :
+                    !!value.match(
+                        new RegExp(pattern.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 
+                                   uiTreeFilterSettings.regexFlags)) :
                     false;
                 return found || visit(item[uiTreeFilterSettings.descendantCollection], pattern, address);
             }
