@@ -73,18 +73,42 @@
              * Otherwise all item descendants are checked as well
              *
              * @param {Object} item
-             * @param {string} pattern
+             * @param {string or Object} string pattern or Object {property, value}.
+			 * If Object, value cat be either boolean, array, or string.
              * @param {string} address property name or dot-delimited path to property.
              *
              * @returns {boolean}
              */
             function testForField(item, pattern, address) {
-                const value = resolveAddress(item, address);
-                const found = typeof value === 'string' ?
-                    !!value.match(new RegExp(pattern, uiTreeFilterSettings.regexFlags)) :
-                    false;
+				const found = _match(item, value, pattern);
+
                 return found || visit(item[uiTreeFilterSettings.descendantCollection], pattern, address);
             }
+
+			function _match(item, value, pattern) {
+				let found = false;
+
+				if (pattern && typeof pattern === 'object' && !(pattern instanceof Array)) {
+					found = Object.keys(pattern)
+						.every(function (key) { return _match(item, item[key], pattern[key]);});
+				} else if (pattern instanceof Array) {
+					found = pattern.indexOf(value) >= 0;
+				} else	if (typeof value === 'string') {
+					found = _testString(value, pattern);
+				} else if (typeof value === 'boolean' && typeof pattern === 'boolean') {
+					found = _testStrictEquality(value, pattern);
+				}
+
+				return found;
+			}
+
+			function _testString(value, pattern) {
+				return !!value.match(new RegExp(pattern, uiTreeFilterSettings.regexFlags));
+			}
+
+			function _testStrictEquality(value, pattern) {
+				return value === pattern;
+			}
 
             /**
              * Checks if pattern matches any of addresses
