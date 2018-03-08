@@ -80,10 +80,35 @@
              */
             function testForField(item, pattern, address) {
                 const value = resolveAddress(item, address);
-                const found = typeof value === 'string' ?
-                    !!value.match(new RegExp(pattern, uiTreeFilterSettings.regexFlags)) :
-                    false;
+                let found;
+                if (typeof value === 'string') {
+                    found = !!value.match(new RegExp(pattern, uiTreeFilterSettings.regexFlags));
+                } else if (Array.isArray(value)) {
+                    found = searchStringInArray(new RegExp(pattern, uiTreeFilterSettings.regexFlags), value);
+                } else {
+                    found = false;
+                }
                 return found || visit(item[uiTreeFilterSettings.descendantCollection], pattern, address);
+            }
+
+            /**
+             * Checks if pattern matches any of the strings in an array
+             *
+             * @param {string} str
+             * @param {array} strArray
+             *
+             * @returns {boolean}
+             */
+            function searchStringInArray(str, strArray) {
+                let found = false;
+                if (strArray) {
+                    strArray.forEach(function (item) {
+                        if (item.match(str)) {
+                            found = true;
+                        }
+                    });
+                    return found;
+                }
             }
 
             /**
