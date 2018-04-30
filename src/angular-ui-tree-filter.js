@@ -96,7 +96,7 @@
              */
             return function (item, pattern, addresses) {
                 addresses = addresses || uiTreeFilterSettings.addresses;
-                return pattern === undefined || addresses.reduce(function (foundSoFar, fieldName) {
+                return !pattern || addresses.reduce(function (foundSoFar, fieldName) {
                     return foundSoFar || testForField(item, pattern, fieldName);
                 }, false);
             };
